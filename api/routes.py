@@ -125,30 +125,12 @@ def _append_provider_model_variants(
 def _build_models_list_response(
     settings: Settings, provider_registry: ProviderRegistry | None
 ) -> ModelsListResponse:
+    # Hanya tampilkan model Claude asli ke klien (Claude Code).
+    # Model provider (nvidia_nim, gemini, groq, dll.) tetap bekerja untuk
+    # routing di backend via settings.resolve_model(), namun tidak ditampilkan
+    # di dropdown pemilihan model agar antarmuka tetap bersih.
     models: list[ModelResponse] = []
     seen: set[str] = set()
-
-    for ref in settings.configured_chat_model_refs():
-        supports_thinking = None
-        if provider_registry is not None:
-            supports_thinking = provider_registry.cached_model_supports_thinking(
-                ref.provider_id, ref.model_id
-            )
-        _append_provider_model_variants(
-            models,
-            seen,
-            ref.model_ref,
-            supports_thinking=supports_thinking,
-        )
-
-    if provider_registry is not None:
-        for model_info in provider_registry.cached_prefixed_model_infos():
-            _append_provider_model_variants(
-                models,
-                seen,
-                model_info.model_id,
-                supports_thinking=model_info.supports_thinking,
-            )
 
     for model in SUPPORTED_CLAUDE_MODELS:
         _append_unique_model(models, seen, model)
