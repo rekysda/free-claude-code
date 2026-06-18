@@ -246,6 +246,70 @@ textarea {
   word-break: break-word;
 }
 
+.provider-free-model {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 22px;
+}
+
+.free-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  padding: 1px 5px;
+  background: rgba(47, 185, 132, 0.18);
+  border: 1px solid rgba(89, 217, 148, 0.4);
+  color: var(--ok);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.free-model-name {
+  color: var(--muted);
+  font-size: 11px;
+  word-break: break-all;
+  line-height: 1.3;
+}
+
+.provider-btn-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.use-free-btn {
+  min-height: 34px;
+  border-radius: 8px;
+  border: 1px solid rgba(89, 217, 148, 0.5);
+  padding: 7px 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  background: rgba(47, 185, 132, 0.14);
+  color: var(--ok);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.use-free-btn:hover {
+  background: rgba(47, 185, 132, 0.26);
+  border-color: var(--ok);
+}
+
+@keyframes field-flash {
+  0%   { box-shadow: 0 0 0 3px rgba(89, 217, 148, 0.0); background: var(--input); }
+  30%  { box-shadow: 0 0 0 3px rgba(89, 217, 148, 0.5); background: rgba(47, 185, 132, 0.12); }
+  100% { box-shadow: 0 0 0 3px rgba(89, 217, 148, 0.0); background: var(--input); }
+}
+
+.field-highlight input {
+  animation: field-flash 2s ease forwards;
+}
+
 .test-button,
 .ghost-button,
 .secondary-button,

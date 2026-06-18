@@ -1258,6 +1258,12 @@ def provider_config_status(
     state = state or _load_value_state()
     statuses: list[dict[str, Any]] = []
     for provider_id, descriptor in PROVIDER_CATALOG.items():
+        free_model = descriptor.default_free_model
+        # Full routing string usable directly in MODEL env var.
+        free_model_route = (
+            f"{provider_id}/{free_model}" if free_model else None
+        )
+
         if descriptor.credential_env is None:
             base_url = ""
             if descriptor.base_url_attr is not None:
@@ -1269,6 +1275,8 @@ def provider_config_status(
                     "status": "missing_url" if not base_url.strip() else "unknown",
                     "label": "Missing URL" if not base_url.strip() else "Not checked",
                     "base_url": base_url or descriptor.default_base_url or "",
+                    "default_free_model": free_model,
+                    "default_free_model_route": free_model_route,
                 }
             )
             continue
@@ -1282,6 +1290,8 @@ def provider_config_status(
                 "status": "configured" if configured else "missing_key",
                 "label": "Configured" if configured else "Missing key",
                 "credential_env": descriptor.credential_env,
+                "default_free_model": free_model,
+                "default_free_model_route": free_model_route,
             }
         )
     return statuses

@@ -183,15 +183,63 @@ function renderProviders(providerStatus) {
         ? provider.base_url || "No local URL configured"
         : provider.credential_env;
 
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "test-button";
-    button.textContent = provider.kind === "local" ? "Test" : "Refresh models";
-    button.addEventListener("click", () => testProvider(provider.provider_id, button));
+    // Free model badge
+    if (provider.default_free_model) {
+      const freeModelEl = document.createElement("div");
+      freeModelEl.className = "provider-free-model";
+      freeModelEl.title = `Model gratis: ${provider.default_free_model_route}`;
+      freeModelEl.innerHTML =
+        `<span class="free-badge">FREE</span>` +
+        `<span class="free-model-name">${provider.default_free_model}</span>`;
+      card.append(title, meta, freeModelEl);
+    } else {
+      card.append(title, meta);
+    }
 
-    card.append(title, meta, button);
+    // Buttons row
+    const btnRow = document.createElement("div");
+    btnRow.className = "provider-btn-row";
+
+    const testBtn = document.createElement("button");
+    testBtn.type = "button";
+    testBtn.className = "test-button";
+    testBtn.textContent = provider.kind === "local" ? "Test" : "Refresh models";
+    testBtn.addEventListener("click", () => testProvider(provider.provider_id, testBtn));
+    btnRow.appendChild(testBtn);
+
+    if (provider.default_free_model_route && provider.status === "configured") {
+      const useBtn = document.createElement("button");
+      useBtn.type = "button";
+      useBtn.className = "use-free-btn";
+      useBtn.textContent = "Use Free Model";
+      useBtn.title = `Set MODEL=${provider.default_free_model_route}`;
+      useBtn.addEventListener("click", () =>
+        setFreeModel(provider.default_free_model_route)
+      );
+      btnRow.appendChild(useBtn);
+    }
+
+    card.appendChild(btnRow);
     grid.appendChild(card);
   });
+}
+
+function setFreeModel(modelRoute) {
+  const input = document.querySelector('[data-key="MODEL"]');
+  if (!input) return;
+  input.value = modelRoute;
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+  // Navigate to Model Config view and highlight the field
+  setActiveView("model_config", { scroll: true });
+  setTimeout(() => {
+    const wrapper = input.closest(".field");
+    if (wrapper) {
+      wrapper.classList.add("field-highlight");
+      input.focus();
+      setTimeout(() => wrapper.classList.remove("field-highlight"), 2000);
+    }
+  }, 300);
+  showMessage(`MODEL diatur ke: ${modelRoute}`, "ok");
 }
 
 function updateProviderCard(providerId, status, label, metaText) {

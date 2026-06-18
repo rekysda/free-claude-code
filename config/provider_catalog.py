@@ -52,6 +52,10 @@ class ProviderDescriptor:
     default_base_url: str | None = None
     base_url_attr: str | None = None
     proxy_attr: str | None = None
+    # Recommended free-tier model ID for this provider (None for local providers).
+    # Format is the bare model ID as returned by the provider's model list API,
+    # without the ``provider_id/`` routing prefix (that is added by the caller).
+    default_free_model: str | None = None
 
 
 PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
@@ -64,6 +68,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=NVIDIA_NIM_DEFAULT_BASE,
         proxy_attr="nvidia_nim_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
+        default_free_model="nvidia/llama-3.3-nemotron-super-49b-v1",
     ),
     "open_router": ProviderDescriptor(
         provider_id="open_router",
@@ -74,6 +79,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=OPENROUTER_DEFAULT_BASE,
         proxy_attr="open_router_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "native_anthropic"),
+        default_free_model="meta-llama/llama-3.3-70b-instruct:free",
     ),
     "gemini": ProviderDescriptor(
         provider_id="gemini",
@@ -84,6 +90,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=GEMINI_DEFAULT_BASE,
         proxy_attr="gemini_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
+        default_free_model="gemini-2.0-flash",
     ),
     "deepseek": ProviderDescriptor(
         provider_id="deepseek",
@@ -93,6 +100,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         credential_attr="deepseek_api_key",
         default_base_url=DEEPSEEK_ANTHROPIC_DEFAULT_BASE,
         capabilities=("chat", "streaming", "tools", "thinking", "native_anthropic"),
+        default_free_model="deepseek-chat",
     ),
     "mistral": ProviderDescriptor(
         provider_id="mistral",
@@ -103,6 +111,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=MISTRAL_DEFAULT_BASE,
         proxy_attr="mistral_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
+        default_free_model="mistral-small-latest",
     ),
     "mistral_codestral": ProviderDescriptor(
         provider_id="mistral_codestral",
@@ -113,6 +122,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=CODESTRAL_DEFAULT_BASE,
         proxy_attr="codestral_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
+        default_free_model="codestral-latest",
     ),
     "opencode": ProviderDescriptor(
         provider_id="opencode",
@@ -123,6 +133,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=OPENCODE_DEFAULT_BASE,
         proxy_attr="opencode_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
+        default_free_model="claude-sonnet-4-5",
     ),
     "opencode_go": ProviderDescriptor(
         provider_id="opencode_go",
@@ -133,6 +144,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=OPENCODE_GO_DEFAULT_BASE,
         proxy_attr="opencode_go_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
+        default_free_model="claude-sonnet-4-5",
     ),
     "wafer": ProviderDescriptor(
         provider_id="wafer",
@@ -143,6 +155,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=WAFER_DEFAULT_BASE,
         proxy_attr="wafer_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "native_anthropic"),
+        default_free_model="claude-opus-4-5",
     ),
     "kimi": ProviderDescriptor(
         provider_id="kimi",
@@ -159,6 +172,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
             "thinking",
             "native_anthropic",
         ),
+        default_free_model="moonshot-v1-8k",
     ),
     "cerebras": ProviderDescriptor(
         provider_id="cerebras",
@@ -169,6 +183,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=CEREBRAS_DEFAULT_BASE,
         proxy_attr="cerebras_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
+        default_free_model="llama3.3-70b",
     ),
     "groq": ProviderDescriptor(
         provider_id="groq",
@@ -179,6 +194,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=GROQ_DEFAULT_BASE,
         proxy_attr="groq_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
+        default_free_model="llama-3.3-70b-versatile",
     ),
     "fireworks": ProviderDescriptor(
         provider_id="fireworks",
@@ -196,6 +212,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
             "native_anthropic",
             "rate_limit",
         ),
+        default_free_model="accounts/fireworks/models/llama-v3p3-70b-instruct",
     ),
     "zai": ProviderDescriptor(
         provider_id="zai",
@@ -212,6 +229,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
             "native_anthropic",
             "rate_limit",
         ),
+        default_free_model="claude-sonnet-4-5",
     ),
     "lmstudio": ProviderDescriptor(
         provider_id="lmstudio",
