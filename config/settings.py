@@ -13,7 +13,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from .constants import HTTP_CONNECT_TIMEOUT_DEFAULT
 from .nim import NimSettings
-from .paths import default_claude_workspace_path, managed_env_path
+from .paths import default_claude_workspace_path, managed_env_path, repo_root_path
 from .provider_ids import SUPPORTED_PROVIDER_IDS
 
 
@@ -30,7 +30,7 @@ class ConfiguredChatModelRef:
 def _env_files() -> tuple[Path, ...]:
     """Return env file paths in priority order (later overrides earlier)."""
     files: list[Path] = [
-        Path(".env"),
+        repo_root_path() / ".env",
         managed_env_path(),
     ]
     if explicit := os.environ.get("FCC_ENV_FILE"):

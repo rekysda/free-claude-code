@@ -11,6 +11,17 @@ FCC_LOGS_DIRNAME = "logs"
 SERVER_LOG_FILENAME = "server.log"
 CODEX_MODEL_CATALOG_FILENAME = "codex-model-catalog.json"
 
+# Absolute path to the repository root, resolved relative to this file's
+# location (config/paths.py lives one level below the repo root).
+# Using __file__ as an anchor ensures correctness regardless of CWD.
+_REPO_ROOT: Path = Path(__file__).resolve().parent.parent
+
+
+def repo_root_path() -> Path:
+    """Return the absolute path to the repository root directory."""
+
+    return _REPO_ROOT
+
 
 def config_dir_path() -> Path:
     """Return the default user config directory."""

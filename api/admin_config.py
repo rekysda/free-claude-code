@@ -12,7 +12,7 @@ from typing import Any, Literal
 from dotenv import dotenv_values
 from pydantic import ValidationError
 
-from config.paths import managed_env_path
+from config.paths import managed_env_path, repo_root_path
 from config.provider_catalog import PROVIDER_CATALOG
 from config.settings import Settings
 
@@ -927,9 +927,14 @@ FIELD_BY_KEY = {field.key: field for field in FIELDS}
 
 
 def repo_env_path() -> Path:
-    """Return the repo-local env path."""
+    """Return the absolute path to the repo-local .env file.
 
-    return Path(".env")
+    Resolved from the repository root using ``__file__`` as anchor so the
+    path is correct regardless of the working directory from which the
+    server process is started.
+    """
+
+    return repo_root_path() / ".env"
 
 
 def explicit_env_path() -> Path | None:
