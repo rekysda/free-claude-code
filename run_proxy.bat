@@ -30,6 +30,16 @@ if not exist "%~dp0.env" (
     exit /b 1
 )
 
+:: Matikan proses lama yang memakai port 8082 (jika ada)
+echo [INFO] Memeriksa port 8082...
+for /f "tokens=5" %%a in ('netstat -ano 2^>nul ^| findstr ":8082 " ^| findstr "LISTENING"') do (
+    echo [INFO] Port 8082 sedang dipakai PID %%a, menghentikannya...
+    taskkill /PID %%a /F >nul 2>&1
+    timeout /t 1 /nobreak >nul
+)
+echo [INFO] Port 8082 siap digunakan.
+echo.
+
 echo [INFO] Memulai server...
 echo [INFO] Tekan Ctrl+C untuk menghentikan server.
 echo.
