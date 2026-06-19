@@ -183,7 +183,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=CEREBRAS_DEFAULT_BASE,
         proxy_attr="cerebras_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
-        default_free_model="llama3.3-70b",
+        default_free_model="gpt-oss-120b",
     ),
     "groq": ProviderDescriptor(
         provider_id="groq",
