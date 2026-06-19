@@ -212,7 +212,7 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
             "native_anthropic",
             "rate_limit",
         ),
-        default_free_model="accounts/fireworks/models/llama-v3p3-70b-instruct",
+        default_free_model="accounts/fireworks/models/gpt-oss-120b",
     ),
     "zai": ProviderDescriptor(
         provider_id="zai",
