@@ -198,20 +198,13 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
     ),
     "fireworks": ProviderDescriptor(
         provider_id="fireworks",
-        transport_type="anthropic_messages",
+        transport_type="openai_chat",
         credential_env="FIREWORKS_API_KEY",
         credential_url="https://fireworks.ai/account/api-keys",
         credential_attr="fireworks_api_key",
         default_base_url=FIREWORKS_DEFAULT_BASE,
         proxy_attr="fireworks_proxy",
-        capabilities=(
-            "chat",
-            "streaming",
-            "tools",
-            "thinking",
-            "native_anthropic",
-            "rate_limit",
-        ),
+        capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
         default_free_model="accounts/fireworks/models/gpt-oss-120b",
     ),
     "zai": ProviderDescriptor(
